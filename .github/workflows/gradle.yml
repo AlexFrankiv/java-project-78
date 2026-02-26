@@ -24,12 +24,6 @@ jobs:
         
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
-    
-    - name: Run tests and generate coverage
-      run: ./gradlew test jacocoTestReport
-      
-    - name: Run lint (checkstyle)
-      run: ./gradlew checkstyleMain
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
