@@ -24,11 +24,17 @@ jobs:
         
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
+    
+    - name: Change to app directory
+      working-directory: ./app
+      run: pwd
 
     - name: Build with Gradle Wrapper
+      working-directory: ./app
       run: ./gradlew build
       
     - name: Analyze with SonarQube
+      working-directory: ./app
       env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: ./gradlew build sonar --info
