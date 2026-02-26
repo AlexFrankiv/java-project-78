@@ -1,6 +1,8 @@
 plugins {
-    id("java")
+    application
     id("org.sonarqube") version "7.1.0.6387"
+    checkstyle
+    jacoco
 }
 
 group = "hexlet.code"
@@ -9,11 +11,17 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+application {
+    mainClass = "hexlet.code.App"
+}
 sonar {
     properties {
         property("sonar.projectKey", "AlexFrankiv_java-project-78")
         property("sonar.organization", "alexfrankiv")
     }
+}
+checkstyle {
+    toolVersion = "10.12.4"
 }
 
 dependencies {
@@ -24,4 +32,11 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
