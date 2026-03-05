@@ -25,6 +25,16 @@ public abstract class BaseSchema<T> {
                 .stream()
                 .allMatch(t -> t.test(value));
     }
+    /**
+     * Marks the value as required (cannot be null).
+     * <p>
+     * This method adds a "required" validation constraint.
+     * Overriding methods must call {@code addValidation("required", predicate)}
+     * with an appropriate predicate.
+     * </p>
+     *
+     * @return this schema instance for method chaining
+     */
     public BaseSchema required() {
         addValidation("required", Objects::nonNull);
         return this;
