@@ -1,16 +1,17 @@
 package hexlet.code.schemas;
 
-public class NumberSchema extends BaseSchema<Integer> {
+public final class NumberSchema extends BaseSchema<Integer> {
+    @Override
     public NumberSchema required() {
-        addPredicate(s -> s != null);
+        super.required();
         return this;
     }
     public NumberSchema positive() {
-        addPredicate(s -> s == null || s > 0);
+        addValidation("positive", s -> s == null || s > 0);
         return this;
     }
-    public NumberSchema range(int numb1, int numb2) {
-        addPredicate(s -> (s >= numb1 && s <= numb2));
+    public NumberSchema range(int start, int end) {
+        addValidation("range", s -> (s >= start && s <= end));
         return this;
     }
 }

@@ -1,23 +1,32 @@
 package hexlet.code.schemas;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
-public class BaseSchema<T> {
+public abstract class BaseSchema<T> {
 
-    private List<Predicate<T>> listPredicates = new ArrayList<>();
+    private Map<String, Predicate<T>> validations = new HashMap<>();
 
-    public boolean isValid(T value) {
-        for (var pred : listPredicates) {
-            if (!pred.test(value)) {
-                return false;
-            }
-        }
-        return true;
+    protected final void addValidation(String key, Predicate<T> validation) {
+        this.validations.put(key, validation);
     }
 
-    protected void addPredicate(Predicate<T> predicate) {
-        listPredicates.add(predicate);
+    public final boolean isValid(T value) {
+        if (validations.containsKey("required") && value == null) {
+            return false;
+        }
+        if (value == null) {
+            return true;
+        }
+
+        return validations.values()
+                .stream()
+                .allMatch(t -> t.test(value));
+    }
+    public BaseSchema required() {
+        addValidation("required", Objects::nonNull);
+        return this;
     }
 }
